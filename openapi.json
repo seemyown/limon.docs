@@ -1,0 +1,1267 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LemonTime Users API",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://dev-api.lemon-time.ru/api/v1"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Создать пользователя",
+        "tags": ["Авторизация"],
+        "parameters": [
+          {
+            "name": "invite",
+            "in": "query",
+            "description": "Код приглашения",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCreateResponse"
+                }
+              }
+            },
+            "description": "Пользователь успешно создан"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь уже существует"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Аутентификация",
+        "tags": [
+          "Авторизация"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    },
+    "/auth/email": {
+      "put": {
+        "summary": "Запрос на обновление email",
+        "tags": [
+          "Авторизация"
+        ],
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Запрос успешно создан"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    },
+    "/auth/password": {
+      "put": {
+        "summary": "Запрос на обновление пароля",
+        "tags": [
+          "Авторизация"
+        ],
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePassword"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Запрос успешно создан"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    },
+    "/auth/reset": {
+      "post": {
+        "summary": "Запрос на восстановление пароля",
+        "tags": [
+          "Авторизация"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Запрос успешно создан"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    },
+    "/auth/reset/password": {
+      "post": {
+        "summary": "Восстановление пароля",
+        "tags": [
+          "Авторизация"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Успешно"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    },
+    "/auth/activate": {
+      "post": {
+        "summary": "Запрос на активацию аккаунта",
+        "tags": [
+          "Авторизация"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Запрос успешно создан"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    },
+    "/auth/confirm-by-code": {
+      "post": {
+        "summary": "Подтверждение запроса",
+        "tags": [
+          "Авторизация"
+        ],
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificationCodeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Запрос успешно выполнен"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    },
+    "/user/": {
+      "get": {
+        "summary": "Профиль пользователя",
+        "tags": [
+          "Пользователь"
+        ],
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "profile",
+            "in": "query",
+            "description": "Получить полный профиль",
+            "required": false,
+            "schema": {
+              "type": "bool"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUser"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Обновление профиля пользователя",
+        "tags": [
+          "Пользователь"
+        ],
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Профиль успешно обновлен"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Запрос на удаление пользователя",
+        "tags": [
+          "Пользователь"
+        ],
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Запрос успешно создан"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    },
+    "/user/avatar": {
+      "put": {
+        "summary": "Обновление аватара",
+        "tags": [
+          "Пользователь"
+        ],
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAvatarRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Запрос успешно создан"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    },
+    "/internal/user/brief": {
+      "get": {
+        "summary": "Профиль пользователя",
+        "tags": [
+          "Пользователь Backend"
+        ],
+        "security": [
+          {
+            "APIKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "description": "ID пользователя",
+            "required": true,
+            "schema": {
+              "type": "int"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUser"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    },
+    "/internal/user/active": {
+      "get": {
+        "summary": "Активный ли пользователь",
+        "tags": [
+          "Пользователь Backend"
+        ],
+        "security": [
+          {
+            "APIKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "description": "ID пользователя",
+            "required": true,
+            "schema": {
+              "type": "int"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "active": {
+                      "type": "bool",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка в теле запроса"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Пользователь не найден"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка валидации"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Ошибка запроса"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserInput": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "user@example.com"
+          },
+          "phone": {
+            "type": "integer",
+            "format": "int64",
+            "example": 79001234567
+          },
+          "full_name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "password": {
+            "type": "string",
+            "example": "securepassword"
+          }
+        },
+        "required": ["email", "full_name", "password"]
+      },
+      "LoginInput": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "securepassword"
+          }
+        },
+        "required": ["login", "password"]
+      },
+      "EmailBodyRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "user@example.com"
+          }
+        },
+        "required": ["email"]
+      },
+      "ForgotPasswordInput": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123456
+          },
+          "new_password": {
+            "type": "string",
+            "example": "newsecurepassword"
+          }
+        },
+        "required": ["code", "new_password"]
+      },
+      "UpdatePassword": {
+        "type": "object",
+        "properties": {
+          "old_password": {
+            "type": "string",
+            "example": "oldsecurepassword"
+          },
+          "new_password": {
+            "type": "string",
+            "example": "newsecurepassword"
+          }
+        },
+        "required": ["old_password", "new_password"]
+      },
+      "VerificationCodeRequest": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123456
+          }
+        },
+        "required": ["code"]
+      },
+      "SocialNetwork": {
+        "type": "object",
+        "properties": {
+          "network_name": {
+            "type": "string",
+            "enum": ["VK", "TG", "SITE", "WA"],
+            "example": "TG"
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://facebook.com/userprofile"
+          }
+        },
+        "required": ["network_name", "link"]
+      },
+      "UpdateUserRequest": {
+        "type": "object",
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "description": {
+            "type": "string",
+            "example": "Backend developer"
+          },
+          "time_offset": {
+            "type": "integer",
+            "example": 3
+          },
+          "social_networks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SocialNetwork"
+            }
+          }
+        }
+      },
+      "UserCreateResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "int",
+            "example": 1
+          },
+          "email_confirmed": {
+            "type": "bool",
+            "example": true
+          },
+          "access_token": {
+            "type": "string",
+            "example": "token"
+          },
+          "token_type": {
+            "type": "string",
+            "example": "Bearer"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "example": "token"
+          },
+          "token_type": {
+            "type": "string",
+            "example": "Bearer"
+          }
+        }
+      },
+      "ResponseUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "info": {
+            "$ref": "#/components/schemas/ProfileInfo"
+          },
+          "avatar": {
+            "$ref": "#/components/schemas/Avatar"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountInfo"
+          },
+          "social_networks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SocialNetwork"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "ProfileInfo": {
+        "type": "object",
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "Software Developer"
+          },
+          "time_offset": {
+            "type": "integer",
+            "nullable": true,
+            "example": 3
+          }
+        },
+        "required": ["full_name"]
+      },
+      "AccountInfo": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "user@example.com"
+          },
+          "email_confirmed": {
+            "type": "boolean",
+            "example": true
+          },
+          "phone": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "example": 79001234567
+          },
+          "phone_confirmed": {
+            "type": "boolean",
+            "nullable": true,
+            "example": false
+          }
+        },
+        "required": ["email", "email_confirmed"]
+      },
+      "Avatar": {
+        "type": "object",
+        "properties": {
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://example.com/avatar.jpg"
+          }
+        },
+        "required": ["link"]
+      },
+      "UpdateAvatarRequest": {
+        "type": "object",
+        "properties": {
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://example.com/avatar.jpg"
+          }
+        },
+        "required": ["link"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "int",
+            "example": 500
+          },
+          "message": {
+            "type": "string",
+            "example": "Ошибка выполнения запроса"
+          },
+          "error": {
+            "type": "string",
+            "example": "internal_server_error"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "APIKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      }
+    }
+  }
+}
